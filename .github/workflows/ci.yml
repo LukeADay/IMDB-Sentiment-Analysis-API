@@ -14,11 +14,10 @@ jobs:
         python-version: [3.10]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4  # Updated to v4 for latest support
 
-    # Using your specified Python setup
     - name: Setup Python 3.10
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v4  # Ensure latest supported version
       with:
         python-version: "3.10"
 
@@ -27,39 +26,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Check if model artifact exists; skip download error if it's the first run
-    - name: Download Model Artifact
-      id: download_model
-      uses: actions/download-artifact@v3
-      with:
-        name: sentiment_model
-        path: .
-      continue-on-error: true  # Prevents failure if artifact is missing on first run
-
-    # Run training script if model is missing
-    - name: Train Model if Missing
-      if: steps.download_model.outputs.artifact-found != 'true'
-      run: |
-        python train_model.py
-
-    # Upload model artifact if newly trained
-    - name: Upload Model Artifact
-      if: steps.download_model.outputs.artifact-found != 'true'
-      uses: actions/upload-artifact@v3
-      with:
-        name: sentiment_model
-        path: sentiment_model.keras
-
-    # Run tests with coverage
     - name: Run Tests with Coverage
       run: |
         coverage run -m pytest
         coverage report
-        coverage xml  # Generate a report in XML format
+        coverage xml
 
-    # Upload coverage to GitHub
-    - name: Upload Coverage to GitHub
-      uses: codecov/codecov-action@v2
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v3  # Updated to v3 for Node 16/20 support
       with:
         file: ./coverage.xml
         fail_ci_if_error: true
