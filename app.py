@@ -1,11 +1,12 @@
-import pickle
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+import pickle
 
-# Load the pre-trained model and tokenizer
+# Load the model and tokenizer
 model = load_model("sentiment_model.keras")
+
 with open("tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
 
@@ -13,6 +14,10 @@ app = FastAPI()
 
 class TextInput(BaseModel):
     text: str
+
+@app.get("/")
+async def root():
+    return {"message": "IMDb Sentiment Analysis API is running"}
 
 @app.post("/predict")
 async def predict_sentiment(input: TextInput):
