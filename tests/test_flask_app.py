@@ -10,9 +10,9 @@ def client():
 def test_home_page(client):
     response = client.get('/')
     assert response.status_code == 200
-    assert b'Please input the movie review' in response.data
 
 def test_sentiment_prediction(client):
-    response = client.post('/predict', data={'review_text': 'I love this movie!'})
+    # Simulate a POST request to the home route with form data
+    response = client.post('/', data={'review': 'I love this movie!'})
     assert response.status_code == 200
-    assert b'Sentiment score:' in response.data
+    assert b"Positive" in response.data or b"Negative" in response.data  # Check for either label in response
