@@ -94,11 +94,10 @@ Enable autoscaling:
 
 ```IMDB-Sentiment-Analysis-API/
 ├── app.py                  # FastAPI application
-├── train_model.py          # Training script for LSTM model
+├── train_model.py          # Training script for LSTM 
 ├── Dockerfile              # Docker container setup
 ├── requirements.txt        # Python dependencies
 ├── deployment.yaml         # Kubernetes deployment
-configuration
 ├── sentiment_model.keras      # Trained model
 ├── tokenizer.pkl           # Serialized tokenizer
 ```
