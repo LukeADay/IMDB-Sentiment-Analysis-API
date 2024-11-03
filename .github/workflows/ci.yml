@@ -3,8 +3,12 @@ name: Continuous Integration
 on:
   push:
     branches: [main, testing-ci]
+    paths-ignore:
+      - 'README.md'    # Ignore changes to README.md
   pull_request:
     branches: [main, testing-ci]
+    paths-ignore:
+      - 'README.md'    # Ignore changes to README.md
 
 jobs:
   build-and-test:
