@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imdb-sentiment-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: imdb-sentiment
+  template:
+    metadata:
+      labels:
+        app: imdb-sentiment
+    spec:
+      containers:
+        - name: imdb-sentiment-container
+          image: imdb-sentiment-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
