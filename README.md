@@ -1,6 +1,6 @@
 # IMDb Sentiment Analysis API
 
-A project showcasing natural language processing (NLP) using the IMDb movie reviews dataset for binary sentiment classification. This project includes training an LSTM model from scratch, deploying it via a RESTful API, containerizing with Docker, deploying to Kubernetes, and integrating Prometheus for monitoring.
+A project showcasing natural language processing (NLP) using the IMDb movie reviews dataset for binary sentiment classification. This project includes training an LSTM model from scratch, deploying it via a RESTful API, containerizing with Docker, deploying to Kubernetes.
 
 This project uses the IMDb Movie Reviews dataset to classify reviews as positive or negative. Key features include:
 
@@ -9,7 +9,7 @@ This project uses the IMDb Movie Reviews dataset to classify reviews as positive
 * REST API: Provides a FastAPI-based endpoint for real-time sentiment prediction.
 * Containerization: Dockerizes the application for easy deployment.
 * Kubernetes: Deploys the application to a Kubernetes cluster with autoscaling.
-* Monitoring: Integrates Prometheus to monitor model performance in production.
+
 
 ## Dataset
 The IMDb dataset consists of 50,000 labeled movie reviews (positive or negative). This dataset is well-suited for binary sentiment analysis tasks.
@@ -20,7 +20,6 @@ The IMDb dataset consists of 50,000 labeled movie reviews (positive or negative)
 * Python 3.8+
 * Docker
 * Kubernetes
-* Prometheus (optional, for monitoring)
 * Setup Instructions
 
 1. Clone the repository:
@@ -36,7 +35,8 @@ It’s recommended to set up a virtual environment:
 
 ```
 python3 -m venv .venv
-source .venv/bin/activate```
+source .venv/bin/activate
+```
 
 Then install dependencies: `pip install -r requirements.txt`.
 
@@ -50,7 +50,7 @@ Then install dependencies: `pip install -r requirements.txt`.
 
 To train the LSTM model, run: `python train_model.py`
 
-This will preprocess the data, train the model, and save `sentiment_model.h5` and `tokenizer.pkl` for deployment.
+This will preprocess the data, train the model, and save `sentiment_model.keras` and `tokenizer.pkl` for deployment.
 
 ## API Deployment
 Run the FastAPI server locally:
@@ -97,8 +97,8 @@ Enable autoscaling:
 ├── train_model.py          # Training script for LSTM model
 ├── Dockerfile              # Docker container setup
 ├── requirements.txt        # Python dependencies
-├── deployment.yaml         # Kubernetes deployment configuration
-├── prometheus-config.yaml  # Prometheus scraping configuration
-├── sentiment_model.h5      # Trained model
+├── deployment.yaml         # Kubernetes deployment
+configuration
+├── sentiment_model.keras      # Trained model
 ├── tokenizer.pkl           # Serialized tokenizer
 ```
