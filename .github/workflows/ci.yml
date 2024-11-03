@@ -27,13 +27,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Check if model artifact exists
+    # Check if model artifact exists; skip download error if it's the first run
     - name: Download Model Artifact
       id: download_model
       uses: actions/download-artifact@v3
       with:
         name: sentiment_model
         path: .
+      continue-on-error: true  # Prevents failure if artifact is missing on first run
 
     # Run training script if model is missing
     - name: Train Model if Missing
