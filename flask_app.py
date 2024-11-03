@@ -10,7 +10,7 @@ model = load_model("sentiment_model.keras")
 with open("tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
 
-@app.route('/')
+@app.route("/", methods=["GET", "POST"])
 def index():
     return render_template('index.html')
 

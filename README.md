@@ -7,7 +7,8 @@ This project uses the IMDb Movie Reviews dataset to classify reviews as positive
 * Text Preprocessing: Tokenizes and pads review text.
 * Model Training: Builds and trains an LSTM model from scratch.
 * REST API: Provides a FastAPI-based endpoint for real-time sentiment prediction.
-* Containerization: Dockerizes the application for easy deployment.
+* Web Application (Flask): Offers a simple UI for users to input movie reviews and receive sentiment predictions.
+* Containerisation: Dockerizes the application for easy deployment.
 * Kubernetes: Deploys the application to a Kubernetes cluster with autoscaling.
 
 
@@ -53,16 +54,20 @@ To train the LSTM model, run: `python train_model.py`
 This will preprocess the data, train the model, and save `sentiment_model.keras` and `tokenizer.pkl` for deployment.
 
 ## API Deployment
-Run the FastAPI server locally:
+
+### Running the Flask Application:
+
+Run the Flask application to access a simple UI for sentiment prediction:
+`python flask_app.py`
+
+The Flask app will be available at http://127.0.0.1:5000.
+
+
+Or run the FastAPI server locally:
 
 `uvicorn app:app --reload`
 
 The API will be available at http://127.0.0.1:8000.
-
-Run the FastAPI server locally:
-
-http://localhost:8000/docs
-
 
 Example Request:
 
@@ -92,12 +97,17 @@ Enable autoscaling:
 
 ## Project Structure
 
-```IMDB-Sentiment-Analysis-API/
+
+```
+IMDB-Sentiment-Analysis-API/
 ├── app.py                  # FastAPI application
-├── train_model.py          # Training script for LSTM 
+├── flask_app.py            # Flask application for UI-based sentiment prediction
+├── train_model.py          # Training script for LSTM model
 ├── Dockerfile              # Docker container setup
 ├── requirements.txt        # Python dependencies
-├── deployment.yaml         # Kubernetes deployment
-├── sentiment_model.keras      # Trained model
+├── deployment.yaml         # Kubernetes deployment 
+├── sentiment_model.keras   # Trained model
 ├── tokenizer.pkl           # Serialized tokenizer
+└── templates/
+    └── index.html          # HTML template for Flask application
 ```
