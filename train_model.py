@@ -57,7 +57,7 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 model.fit(X_train, y_train, epochs=3, validation_data=(X_test, y_test))
 
 # Save the trained model and tokenizer
-model.save("sentiment_model.h5")
+model.save("sentiment_model.keras")
 import pickle
 with open("tokenizer.pkl", "wb") as f:
     pickle.dump(tokenizer, f)
