@@ -1,67 +1,46 @@
-# Byte-compiled / optimized / DLL files
+# Byte-compiled files
 __pycache__/
 *.py[cod]
-*$py.class
 
-# C extensions
-*.so
-
-# Virtual environments
+# Virtual environment
 .venv/
 env/
-venv/
-
-# Installed package directories
-.eggs/
-*.egg-info/
-dist/
-build/
-
-# Environments and Python packages
-env/
 *.env
-*.venv
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Python-specific configurations
-*.pyo
-*.pyd
-*.whl
-*.egg
-
-# VS Code configuration files (if you’re using VS Code)
-.vscode/
-
-# macOS
-.DS_Store
-
-# Jupyter Notebooks checkpoints
+environemnt/
+# Jupyter Notebook checkpoints
 .ipynb_checkpoints
 
-# Unit test / coverage reports
-.coverage
-*.cover
-*.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.coveragerc
+# Data files or intermediate training results
+*.h5
+*.keras
+acllmdb/
 
-# Logs and databases
+# Pytest cache and coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs and temporary files
 *.log
-*.sql
-*.sqlite
+*.csv
+*.json
+*.pkl
 *.db
 
-# dotenv files
-.env
-.env.*
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+train
+test
 
-# Deployment
-*.log
-*.yaml
-Procfile
+# Docker
+# Ignore Docker image layers
+*.tar
 
-# GitHub workflows
-.github/workflows/*.yaml
+# Ignore docker-compose override files
+docker-compose.override.yml
+
+# Ignore Docker volumes and data files
+**/docker-data/
+
