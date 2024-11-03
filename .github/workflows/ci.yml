@@ -1,40 +1,39 @@
-name: CI
+name: Continuous Integration
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/testing-ci]
   pull_request:
-    branches: [main]
+    branches: [main, feature/testing-ci]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.10]
 
     steps:
-      # Step 1: Checkout code
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      # Step 2: Set up Python
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10.10'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      # Step 4: Run tests
-      - name: Run tests
-        run: pytest
+    - name: Run Tests with Coverage
+      run: |
+        coverage run -m pytest
+        coverage report
+        coverage xml  # Generate a report in XML format
 
-      # Step 5: Linting
-      # Optional: Include linting if desired
-      - name: Run linter (optional)
-        run: |
-          pip install flake8
-          flake8 .
-
+    - name: Upload Coverage to GitHub
+      uses: codecov/codecov-action@v2  # Using Codecov for GitHub integration
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: true
