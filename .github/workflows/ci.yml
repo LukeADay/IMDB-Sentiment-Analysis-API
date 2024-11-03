@@ -14,10 +14,10 @@ jobs:
         python-version: [3.10]
 
     steps:
-    - uses: actions/checkout@v4  # Updated to v4 for latest support
+    - uses: actions/checkout@v4
 
     - name: Setup Python 3.10
-      uses: actions/setup-python@v4  # Ensure latest supported version
+      uses: actions/setup-python@v4
       with:
         python-version: "3.10"
 
@@ -26,14 +26,27 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Download Model Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: sentiment_model
+        path: ./
+
+    - name: Verify Model Existence
+      run: |
+        if [ ! -f "sentiment_model.keras" ]; then
+          echo "Model file not found! Training model as a backup."
+          python train_model.py  # Re-train if model is missing
+        fi
+
     - name: Run Tests with Coverage
       run: |
         coverage run -m pytest
         coverage report
         coverage xml
 
-    - name: Upload Coverage to Codecov
-      uses: codecov/codecov-action@v3  # Updated to v3 for Node 16/20 support
+    - name: Upload Coverage to GitHub
+      uses: codecov/codecov-action@v3
       with:
         file: ./coverage.xml
         fail_ci_if_error: true
