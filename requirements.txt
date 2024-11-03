@@ -13,3 +13,5 @@ prometheus-fastapi-instrumentator==5.9.0
 # Optional for data handling and plotting
 pandas==1.5.3
 matplotlib==3.7.1
+
+coverage==7.2.0
