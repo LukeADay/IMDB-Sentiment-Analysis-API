@@ -16,46 +16,49 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    # Using your specified Python setup
     - name: Setup Python 3.10
       uses: actions/setup-python@v4
       with:
-        python-version: "3.10"
+        python-version: ${{ matrix.python-version }}
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step to download the model artifact if it exists
-    - name: Download sentiment model artifact
+    # Check if model artifact exists
+    - name: Download Model Artifact
+      id: download_model
       uses: actions/download-artifact@v3
       with:
         name: sentiment_model
         path: .
 
-    # Step to train the model if it is not already present
-    - name: Train model if missing
+    # Run training script if model is missing
+    - name: Train Model if Missing
+      if: steps.download_model.outputs.artifact-found != 'true'
       run: |
-        if [ ! -f sentiment_model.keras ]; then
-          python train_model.py
-        fi
+        python train_model.py
 
+    # Upload model artifact if newly trained
+    - name: Upload Model Artifact
+      if: steps.download_model.outputs.artifact-found != 'true'
+      uses: actions/upload-artifact@v3
+      with:
+        name: sentiment_model
+        path: sentiment_model.keras
+
+    # Run tests with coverage
     - name: Run Tests with Coverage
       run: |
         coverage run -m pytest
         coverage report
         coverage xml  # Generate a report in XML format
 
+    # Upload coverage to GitHub
     - name: Upload Coverage to GitHub
-      uses: codecov/codecov-action@v2  # Using Codecov for GitHub integration
+      uses: codecov/codecov-action@v2
       with:
         file: ./coverage.xml
         fail_ci_if_error: true
-
-    # Upload the model artifact for future workflow runs
-    - name: Upload sentiment model artifact
-      if: success() && always()  # Ensures upload after a successful run
-      uses: actions/upload-artifact@v3
-      with:
-        name: sentiment_model
-        path: sentiment_model.keras
