@@ -1,2 +1,104 @@
-# IMDB-Sentiment-Analysis-API
-An NLP project using the IMDb movie reviews dataset for binary sentiment classification. This repository covers model training from scratch with LSTM, API deployment using FastAPI, containerisation with Docker, Kubernetes deployment, and monitoring with Prometheus.
+# IMDb Sentiment Analysis API
+
+A project showcasing natural language processing (NLP) using the IMDb movie reviews dataset for binary sentiment classification. This project includes training an LSTM model from scratch, deploying it via a RESTful API, containerizing with Docker, deploying to Kubernetes, and integrating Prometheus for monitoring.
+
+This project uses the IMDb Movie Reviews dataset to classify reviews as positive or negative. Key features include:
+
+* Text Preprocessing: Tokenizes and pads review text.
+* Model Training: Builds and trains an LSTM model from scratch.
+* REST API: Provides a FastAPI-based endpoint for real-time sentiment prediction.
+* Containerization: Dockerizes the application for easy deployment.
+* Kubernetes: Deploys the application to a Kubernetes cluster with autoscaling.
+* Monitoring: Integrates Prometheus to monitor model performance in production.
+
+## Dataset
+The IMDb dataset consists of 50,000 labeled movie reviews (positive or negative). This dataset is well-suited for binary sentiment analysis tasks.
+
+## Installation
+### Prerequisites
+
+* Python 3.8+
+* Docker
+* Kubernetes
+* Prometheus (optional, for monitoring)
+* Setup Instructions
+
+1. Clone the repository:
+```
+git clone https://github.com/LukeADay/IMDB-Sentiment-Analysis-API.git
+
+cd IMDB-Sentiment-Analysis-API
+```
+
+2. Install dependencies:
+
+It’s recommended to set up a virtual environment:
+
+```
+python3 -m venv .venv
+source .venv/bin/activate```
+
+Then install dependencies: `pip install -r requirements.txt`.
+
+
+
+3. Download the IMDb dataset:
+
+`python train_model.py --download-dataset`
+
+4. Model Training:
+
+To train the LSTM model, run: `python train_model.py`
+
+This will preprocess the data, train the model, and save `sentiment_model.h5` and `tokenizer.pkl` for deployment.
+
+## API Deployment
+Run the FastAPI server locally:
+
+`uvicorn app:app --reload`
+
+The API will be available at http://127.0.0.1:8000.
+
+Run the FastAPI server locally:
+
+http://localhost:8000/docs
+
+
+Example Request:
+
+`curl -X POST "http://127.0.0.1:8000/predict" -H "Content-Type: application/json" -d '{"text": "I loved the movie!"}'`
+
+For interactive documentation, visit the FastAPI Swagger UI at:
+
+http://127.0.0.1:8000/docs
+
+## Dockerization
+Build and run the Docker container:
+
+`
+docker build -t imdb-sentiment-api .
+docker run -p 8000:8000 imdb-sentiment-api
+`
+
+## Kubernetes Deployment
+
+Deploy the application:
+
+`kubectl apply -f deployment.yaml`
+
+Enable autoscaling:
+
+`kubectl autoscale deployment imdb-sentiment-deployment --cpu-percent=50 --min=1 --max=10`
+
+## Project Structure
+
+```IMDB-Sentiment-Analysis-API/
+├── app.py                  # FastAPI application
+├── train_model.py          # Training script for LSTM model
+├── Dockerfile              # Docker container setup
+├── requirements.txt        # Python dependencies
+├── deployment.yaml         # Kubernetes deployment configuration
+├── prometheus-config.yaml  # Prometheus scraping configuration
+├── sentiment_model.h5      # Trained model
+├── tokenizer.pkl           # Serialized tokenizer
+```
