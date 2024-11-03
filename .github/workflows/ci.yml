@@ -26,18 +26,26 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Download Model Artifact
+    - name: Check for and Download Model Artifact
+      id: download-model
       uses: actions/download-artifact@v3
       with:
         name: sentiment_model
         path: ./
+      continue-on-error: true  # Allow the workflow to continue even if download fails
 
-    - name: Verify Model Existence
+    - name: Train Model (if artifact missing)
+      if: steps.download-model.outcome == 'failure'
       run: |
-        if [ ! -f "sentiment_model.keras" ]; then
-          echo "Model file not found! Training model as a backup."
-          python train_model.py  # Re-train if model is missing
-        fi
+        echo "Model artifact not found. Training the model..."
+        python train_model.py
+
+    - name: Upload Model Artifact
+      if: steps.download-model.outcome == 'failure'
+      uses: actions/upload-artifact@v4
+      with:
+        name: sentiment_model
+        path: sentiment_model.keras
 
     - name: Run Tests with Coverage
       run: |
