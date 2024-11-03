@@ -1,0 +1,67 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Installed package directories
+.eggs/
+*.egg-info/
+dist/
+build/
+
+# Environments and Python packages
+env/
+*.env
+*.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Python-specific configurations
+*.pyo
+*.pyd
+*.whl
+*.egg
+
+# VS Code configuration files (if you’re using VS Code)
+.vscode/
+
+# macOS
+.DS_Store
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints
+
+# Unit test / coverage reports
+.coverage
+*.cover
+*.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.coveragerc
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+*.db
+
+# dotenv files
+.env
+.env.*
+
+# Deployment
+*.log
+*.yaml
+Procfile
+
+# GitHub workflows
+.github/workflows/*.yaml
