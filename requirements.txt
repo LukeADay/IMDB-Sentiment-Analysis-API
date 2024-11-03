@@ -1,0 +1,15 @@
+# Model training and evaluation
+numpy==1.24.3
+scikit-learn==1.1.2
+tensorflow>=2.13.0  # Allow any compatible version from 2.13 onwards
+
+# API server with FastAPI
+fastapi==0.95.1
+uvicorn==0.21.1
+
+# Monitoring and metrics
+prometheus-fastapi-instrumentator==5.9.0
+
+# Optional for data handling and plotting
+pandas==1.5.3
+matplotlib==3.7.1
