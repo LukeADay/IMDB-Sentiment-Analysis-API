@@ -12,7 +12,6 @@ environemnt/
 
 # Data files or intermediate training results
 *.h5
-*.keras
 acllmdb/
 
 # Pytest cache and coverage reports
