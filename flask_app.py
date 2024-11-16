@@ -7,7 +7,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 app = Flask(__name__)
 
 # Enable CORS globally for all routes (or specify for '/predict' if needed)
-CORS(app, resources={r"/predict": {"origins": "*"}})  # Allow all origins for /predict route
+CORS(app)  # Allow all origins for /predict route
 
 # Load the model and tokenizer
 model = load_model("sentiment_model.keras")
