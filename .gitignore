@@ -24,7 +24,6 @@ htmlcov/
 *.log
 *.csv
 *.json
-*.pkl
 *.db
 
 # IDE and OS files
