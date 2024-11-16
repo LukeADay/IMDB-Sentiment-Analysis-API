@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import CORS
 import pickle
 from tensorflow.keras.models import load_model
@@ -25,18 +25,17 @@ def predict_sentiment(text):
 def health_check():
     return "OK", 200
 
-@app.route("/", methods=["GET", "POST"])
-def home():
-    print(f"Request method: {request.method}")
-    print(f"Request content-type: {request.content_type}")
-    if request.method == "POST":
-        text = request.form.get("review")
-        print(f"Received review: {text}")
-        score, label = predict_sentiment(text)
-        return jsonify({"review": text, "score": score, "label": label})
-    return render_template("index.html")
+@app.route("/predict", methods=["POST"])  # This should be the /predict route for POST requests
+def predict():
+    # Parse incoming JSON data from the body
+    data = request.get_json()  # Get JSON data sent from the frontend
+    text = data.get("text")  # Extract text from JSON
 
+    if text is None:
+        return jsonify({"error": "No text provided"}), 400
+
+    score, label = predict_sentiment(text)  # Get sentiment prediction
+    return jsonify({"score": score, "label": label})  # Send response back to frontend
 
 if __name__ == "__main__":
     app.run(debug=True)
-
