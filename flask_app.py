@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template, jsonify
 from flask_cors import CORS  # Import CORS
 import pickle
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, resources={r"/predict": {"origins": "*"}})  # Enable CORS for the /predict route specifically
 
 # Load the model and tokenizer
 model = load_model("sentiment_model.keras")
@@ -25,17 +25,16 @@ def predict_sentiment(text):
 def health_check():
     return "OK", 200
 
-@app.route("/predict", methods=["POST"])  # This should be the /predict route for POST requests
+@app.route("/predict", methods=["POST", "OPTIONS"])  # Allow OPTIONS method explicitly
 def predict():
-    # Parse incoming JSON data from the body
-    data = request.get_json()  # Get JSON data sent from the frontend
-    text = data.get("text")  # Extract text from JSON
-
-    if text is None:
-        return jsonify({"error": "No text provided"}), 400
-
-    score, label = predict_sentiment(text)  # Get sentiment prediction
-    return jsonify({"score": score, "label": label})  # Send response back to frontend
+    if request.method == "OPTIONS":  # CORS preflight request
+        return '', 200  # Respond with a successful status for OPTIONS
+    if request.method == "POST":
+        text = request.json.get("text")
+        if not text:
+            return jsonify({"error": "No review text provided"}), 400
+        score, label = predict_sentiment(text)
+        return jsonify({"score": score, "label": label})
 
 if __name__ == "__main__":
     app.run(debug=True)
