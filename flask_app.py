@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import pickle
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -19,19 +19,21 @@ def predict_sentiment(text):
     label = "Positive" if score >= 0.5 else "Negative"
     return score, label
 
+@app.route("/", methods=["GET", "POST"])
+def home():
+    print(f"Request method: {request.method}")
+    print(f"Request content-type: {request.content_type}")
+    if request.method == "POST":
+        text = request.form.get("review")
+        print(f"Received review: {text}")
+        score, label = predict_sentiment(text)
+        return jsonify({"review": text, "score": score, "label": label})
+    return render_template("index.html")
+
+
 @app.route("/healthz")
 def health_check():
     return "OK", 200
-
-
-# Define routes
-@app.route("/", methods=["GET", "POST"])
-def home():
-    if request.method == "POST":
-        text = request.form.get("review")
-        score, label = predict_sentiment(text)
-        return render_template("index.html", score=score, label=label, review=text)
-    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
