@@ -19,6 +19,11 @@ def predict_sentiment(text):
     label = "Positive" if score >= 0.5 else "Negative"
     return score, label
 
+@app.route("/healthz")
+def health_check():
+    return "OK", 200
+
+
 # Define routes
 @app.route("/", methods=["GET", "POST"])
 def home():
