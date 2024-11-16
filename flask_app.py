@@ -1,9 +1,11 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template
+from flask_cors import CORS  # Import CORS
 import pickle
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 # Load the model and tokenizer
 model = load_model("sentiment_model.keras")
@@ -19,6 +21,10 @@ def predict_sentiment(text):
     label = "Positive" if score >= 0.5 else "Negative"
     return score, label
 
+@app.route("/healthz")
+def health_check():
+    return "OK", 200
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     print(f"Request method: {request.method}")
@@ -30,10 +36,6 @@ def home():
         return jsonify({"review": text, "score": score, "label": label})
     return render_template("index.html")
 
-
-@app.route("/healthz")
-def health_check():
-    return "OK", 200
 
 if __name__ == "__main__":
     app.run(debug=True)
