@@ -1,5 +1,6 @@
 # IMDb Sentiment Analysis API 
-[![Continuous Integration](https://github.com/LukeADay/IMDB-Sentiment-Analysis-API/actions/workflows/ci.yml/badge.svg)](https://github.com/LukeADay/IMDB-Sentiment-Analysis-API/actions/workflows/ci.yml)
+[![Continuous Integration](https://github.com/LukeADay/IMDB-Sentiment-Analysis-API/actions/workflows/ci.yml/badge.svg)](https://github.com/LukeADay/IMDB-Sentiment-Analysis-API/actions/workflows/ci.yml) ![CD](https://github.com/LukeADay/IMDB-Sentiment-Analysis-API/actions/workflows/cd.yml/badge.svg)
+
 
 A project showcasing natural language processing (NLP) using the IMDb movie reviews dataset for binary sentiment classification. This project includes training an LSTM model from scratch, deploying it via a RESTful API, containerizing with Docker, deploying to Kubernetes.
 
